@@ -13,7 +13,7 @@ public class Promotion {
 
 
 	public enum Discount{
-		TEN_PERCENT,
+		TEN_PERCENT_FOR_APPLES,
 		BREAD_HALF_PRICE
 	}
 }

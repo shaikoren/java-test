@@ -17,7 +17,7 @@ public class CashierTest {
 		shoppingBasket.addProduct(Product.MILK);
 		shoppingBasket.addProduct(Product.APPLE);
 
-		Double result = underTest.calculateTotal(shoppingBasket, now());
+		Double result = underTest.calculateTotal(shoppingBasket, now().plusMonths(2));
 
 		assertThat(result).isEqualTo(2.85);
 	}
@@ -40,7 +40,30 @@ public class CashierTest {
 		Double result = underTest.calculateTotal(shoppingBasket, now());
 
 		assertThat(result).isEqualTo(0.20);
+	}
 
+	@Test
+	public void shouldGetHalfPriceBreadWhenBuyTwoSoups(){
+		shoppingBasket.addProduct(Product.SOUP);
+		shoppingBasket.addProduct(Product.SOUP);
+		shoppingBasket.addProduct(Product.BREAD);
+
+		Double result = underTest.calculateTotal(shoppingBasket, now());
+
+	    assertThat(result).isEqualTo(1.70);
+	}
+
+	@Test
+	public void shouldCalculatePriceWithManyBreads(){
+		shoppingBasket.addProduct(Product.SOUP);
+		shoppingBasket.addProduct(Product.SOUP);
+		shoppingBasket.addProduct(Product.SOUP);
+		shoppingBasket.addProduct(Product.BREAD);
+		shoppingBasket.addProduct(Product.BREAD);
+
+		Double result = underTest.calculateTotal(shoppingBasket, now());
+
+		assertThat(result).isEqualTo(3.15);
 	}
 
 }
