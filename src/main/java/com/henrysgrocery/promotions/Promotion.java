@@ -14,6 +14,6 @@ public class Promotion {
 
 	public enum Discount{
 		TEN_PERCENT_FOR_APPLES,
-		BREAD_HALF_PRICE
+		BREAD_HALF_PRICE_FOR_TWO_SOUPS
 	}
 }

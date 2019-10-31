@@ -16,7 +16,7 @@ public enum Product {
 		this.price = price;
 	}
 
-	BigDecimal getPrice(){
+	public BigDecimal getPrice(){
 		return price;
 	}
 }
