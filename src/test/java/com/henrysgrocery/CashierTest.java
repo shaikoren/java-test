@@ -37,7 +37,8 @@ public class CashierTest {
 				{asList(APPLE), now().plusDays(7), 0.09},
 				{asList(APPLE, APPLE), now() , 0.20},
 				{asList(SOUP, SOUP, BREAD), now(), 1.70},
-				{asList(SOUP, SOUP, SOUP, BREAD, BREAD), now(), 3.15}
+				{asList(SOUP, SOUP, SOUP, BREAD, BREAD), now(), 3.15},
+				{asList(APPLE, APPLE, APPLE, APPLE, APPLE,APPLE, MILK), now(), 1.90}
 		});
 	}
 

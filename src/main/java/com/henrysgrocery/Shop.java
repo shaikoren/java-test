@@ -20,6 +20,6 @@ public class Shop {
 
 	public void calculateTotal(LocalDate dateOfPurchase) {
 		double total = cashier.calculateTotal(shopingBasket, dateOfPurchase);
-		console.print(String.valueOf(total));
+		console.print(String.format("%.2f", total));
 	}
 }
