@@ -24,8 +24,7 @@ public class Cashier {
 	private List<Promotion> promotions = asList(
 			new Promotion(APPLE,
 					Period.between(now().plusDays(3), now().plusMonths(1).with(TemporalAdjusters.lastDayOfMonth())),
-					TEN_PERCENT_FOR_APPLES)
-			,
+					TEN_PERCENT_FOR_APPLES),
 			new Promotion(BREAD,
 					Period.between(now().minusDays(1), now().plusDays(7)),
 					Promotion.Discount.BREAD_HALF_PRICE)
