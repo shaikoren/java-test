@@ -1,7 +1,9 @@
 package com.henrysgrocery.promotions;
 
+import com.henrysgrocery.GroupedProducts;
 import com.henrysgrocery.Product;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
@@ -21,12 +23,12 @@ public class Promotion {
 		return this.period.isWithinPeriod(dateOfPurchase);
 	}
 
-	Discount getDiscount() {
-		return this.discount;
-	}
-
 	public Product getProduct() {
 		return this.product;
+	}
+
+	 BigDecimal applyDiscount(GroupedProducts groupedProducts){
+		     return this.discount.applyDiscount(groupedProducts);
 	}
 
 }

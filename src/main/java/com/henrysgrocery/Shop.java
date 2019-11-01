@@ -1,5 +1,6 @@
 package com.henrysgrocery;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.stream.IntStream;
 
@@ -8,7 +9,7 @@ public class Shop {
 	private final Cashier cashier = new Cashier();
 	private final Console console;
 
-	public Shop(Console console) {
+	 Shop(Console console) {
 		this.console = console;
 	}
 
@@ -19,7 +20,7 @@ public class Shop {
 	}
 
 	public void calculateTotal(LocalDate dateOfPurchase) {
-		double total = cashier.calculateTotal(shopingBasket, dateOfPurchase);
+		BigDecimal total = cashier.calculateTotal(shopingBasket, dateOfPurchase);
 		console.print(String.format("%.2f", total));
 	}
 }

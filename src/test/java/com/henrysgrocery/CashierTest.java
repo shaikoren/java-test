@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -47,9 +48,9 @@ public class CashierTest {
 	public void shouldCalculateTotalPrice() {
 		products.forEach(product -> shoppingBasket.addProduct(product));
 		
-		Double result = underTest.calculateTotal(shoppingBasket, dateOfPurchase);
+		BigDecimal result = underTest.calculateTotal(shoppingBasket, dateOfPurchase);
 
-		assertThat(result).isEqualTo(expected);
+		assertThat(result.doubleValue()).isEqualTo(expected);
 	}
 
 }

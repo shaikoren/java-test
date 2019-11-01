@@ -16,7 +16,7 @@ public class Cashier {
 	private ActivePromotions activePromotions = new ActivePromotions();
 
 
-	public Double calculateTotal(ShoppingBasket shoppingBasket, LocalDate dateOfPurchase) {
+	public BigDecimal calculateTotal(ShoppingBasket shoppingBasket, LocalDate dateOfPurchase) {
 
 		List<Promotion> relevantPromotions = filterActivePromotionsByPurchaseDate(dateOfPurchase);
 
@@ -29,7 +29,7 @@ public class Cashier {
 		BigDecimal totalDiscountedPrices = activePromotions.calculatePromotions(relevantPromotions, groupedProducts);
 
 
-		return totalDiscountedPrices.add(priceWithoutPromotion).doubleValue();
+		return totalDiscountedPrices.add(priceWithoutPromotion);
 	}
 
 	private GroupedProducts groupItemsInBasketByProduct(ShoppingBasket shoppingBasket) {

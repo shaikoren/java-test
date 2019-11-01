@@ -31,8 +31,7 @@ public class ActivePromotions {
 		Map<Product, BigDecimal> discountedPrices = new HashMap<>(promotions.size());
 
 		relevantPromotions.forEach(promotion -> {
-
-			discountedPrices.put(promotion.getProduct(), promotion.getDiscount().applyDiscount(groupedProducts));
+			discountedPrices.put(promotion.getProduct(), promotion.applyDiscount(groupedProducts));
 		});
 
 		return discountedPrices.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add);
