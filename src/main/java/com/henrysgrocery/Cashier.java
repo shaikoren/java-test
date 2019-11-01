@@ -1,6 +1,6 @@
 package com.henrysgrocery;
 
-import com.henrysgrocery.promotions.CurrentPromotions;
+import com.henrysgrocery.promotions.ActivePromotions;
 import com.henrysgrocery.promotions.Promotion;
 
 import java.math.BigDecimal;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import static java.lang.Boolean.FALSE;
 
 public class Cashier {
-	private CurrentPromotions currentPromotions = new CurrentPromotions();
+	private ActivePromotions activePromotions = new ActivePromotions();
 
 
 	public Double calculateTotal(ShoppingBasket shoppingBasket, LocalDate dateOfPurchase) {
@@ -26,7 +26,7 @@ public class Cashier {
 
 		BigDecimal priceWithoutPromotion = totalPriceOfProductsWithoutPromotion(productsByPromotionApplicability);
 
-		BigDecimal totalDiscountedPrices = currentPromotions.calculatePromotions(relevantPromotions, productsByPromotionApplicability, groupedProducts);
+		BigDecimal totalDiscountedPrices = activePromotions.calculatePromotions(relevantPromotions, groupedProducts);
 
 
 		return totalDiscountedPrices.add(priceWithoutPromotion).doubleValue();
@@ -43,7 +43,7 @@ public class Cashier {
 	}
 
 	private List<Promotion> filterActivePromotionsByPurchaseDate(LocalDate dateOfPurchase) {
-		return currentPromotions.getPromotions().stream().filter(promotion -> promotion.isActive(dateOfPurchase)).collect(Collectors.toList());
+		return activePromotions.getPromotions().stream().filter(promotion -> promotion.isActive(dateOfPurchase)).collect(Collectors.toList());
 	}
 
 	private BigDecimal totalPriceOfProductsWithoutPromotion(Map<Boolean, List<Product>> productsByPromotions) {
