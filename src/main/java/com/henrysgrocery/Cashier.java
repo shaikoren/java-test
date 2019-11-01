@@ -18,7 +18,7 @@ public class Cashier {
 
 	public Double calculateTotal(ShoppingBasket shoppingBasket, LocalDate dateOfPurchase) {
 
-		List<Promotion> relevantPromotions = filterRelevantPromotionsByPurchaseDate(dateOfPurchase);
+		List<Promotion> relevantPromotions = filterActivePromotionsByPurchaseDate(dateOfPurchase);
 
 		Map<Boolean, List<Product>> productsByPromotionApplicability = partitionProductsByPromotionApplicability(shoppingBasket, relevantPromotions);
 
@@ -42,8 +42,8 @@ public class Cashier {
 		));
 	}
 
-	private List<Promotion> filterRelevantPromotionsByPurchaseDate(LocalDate dateOfPurchase) {
-		return currentPromotions.getPromotions().stream().filter(promotion -> promotion.getPeriod().isWithinPeriod(dateOfPurchase)).collect(Collectors.toList());
+	private List<Promotion> filterActivePromotionsByPurchaseDate(LocalDate dateOfPurchase) {
+		return currentPromotions.getPromotions().stream().filter(promotion -> promotion.isActive(dateOfPurchase)).collect(Collectors.toList());
 	}
 
 	private BigDecimal totalPriceOfProductsWithoutPromotion(Map<Boolean, List<Product>> productsByPromotions) {

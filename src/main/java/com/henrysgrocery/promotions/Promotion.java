@@ -1,15 +1,33 @@
 package com.henrysgrocery.promotions;
 
 import com.henrysgrocery.Product;
-import lombok.Value;
+
+import java.time.LocalDate;
 
 
-@Value
 public class Promotion {
 
-	private Product product;
-	private Period period;
-	private Discount discount;
+	private final Product product;
+	private final Period period;
+	private final Discount discount;
+
+	public Promotion(Product product, Period period, Discount discount) {
+		this.product = product;
+		this.period = period;
+		this.discount = discount;
+	}
+
+	public boolean isActive(LocalDate dateOfPurchase) {
+		return this.period.isWithinPeriod(dateOfPurchase);
+	}
+
+	public Discount getDiscount() {
+		return this.discount;
+	}
+
+	public Product getProduct() {
+		return this.product;
+	}
 
 
 	public enum Discount{
