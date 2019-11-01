@@ -22,7 +22,7 @@ public class Cashier {
 
 		Map<Boolean, List<Product>> productsByPromotionApplicability = partitionProductsByPromotionApplicability(shoppingBasket, relevantPromotions);
 
-		Map<Product, List<Product>> groupedProducts = groupItemsInBasketByProduct(shoppingBasket);
+		GroupedProducts groupedProducts = groupItemsInBasketByProduct(shoppingBasket);
 
 		BigDecimal priceWithoutPromotion = totalPriceOfProductsWithoutPromotion(productsByPromotionApplicability);
 
@@ -32,8 +32,9 @@ public class Cashier {
 		return totalDiscountedPrices.add(priceWithoutPromotion).doubleValue();
 	}
 
-	private Map<Product, List<Product>> groupItemsInBasketByProduct(ShoppingBasket shoppingBasket) {
-		return shoppingBasket.getProducts().stream().collect(Collectors.groupingBy(Function.identity()));
+	private GroupedProducts groupItemsInBasketByProduct(ShoppingBasket shoppingBasket) {
+		Map<Product, List<Product>> groupedProducts = shoppingBasket.getProducts().stream().collect(Collectors.groupingBy(Function.identity()));
+		return new GroupedProducts(groupedProducts);
 	}
 
 	private Map<Boolean, List<Product>> partitionProductsByPromotionApplicability(ShoppingBasket shoppingBasket, List<Promotion> relevantPromotions) {
