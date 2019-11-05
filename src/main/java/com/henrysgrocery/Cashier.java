@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.lang.Boolean.FALSE;
@@ -22,19 +21,11 @@ public class Cashier {
 
 		Map<Boolean, List<Product>> productsByPromotionApplicability = partitionProductsByPromotionApplicability(shoppingBasket, relevantPromotions);
 
-		GroupedProducts groupedProducts = groupItemsInBasketByProduct(shoppingBasket);
-
 		BigDecimal priceWithoutPromotion = totalPriceOfProductsWithoutPromotion(productsByPromotionApplicability);
 
-		BigDecimal totalDiscountedPrices = activePromotions.calculatePromotions(relevantPromotions, groupedProducts);
-
+		BigDecimal totalDiscountedPrices = activePromotions.calculatePromotions(relevantPromotions, shoppingBasket);
 
 		return totalDiscountedPrices.add(priceWithoutPromotion);
-	}
-
-	private GroupedProducts groupItemsInBasketByProduct(ShoppingBasket shoppingBasket) {
-		Map<Product, List<Product>> groupedProducts = shoppingBasket.getProducts().stream().collect(Collectors.groupingBy(Function.identity()));
-		return new GroupedProducts(groupedProducts);
 	}
 
 	private Map<Boolean, List<Product>> partitionProductsByPromotionApplicability(ShoppingBasket shoppingBasket, List<Promotion> relevantPromotions) {

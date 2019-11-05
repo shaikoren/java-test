@@ -1,7 +1,7 @@
 package com.henrysgrocery.promotions;
 
-import com.henrysgrocery.GroupedProducts;
 import com.henrysgrocery.Product;
+import com.henrysgrocery.ShoppingBasket;
 
 import java.math.BigDecimal;
 import java.time.temporal.TemporalAdjusters;
@@ -26,17 +26,16 @@ public class ActivePromotions {
 					Discount.BREAD_HALF_PRICE_FOR_TWO_SOUPS)
 	);
 
-	public BigDecimal calculatePromotions(List<Promotion> relevantPromotions, GroupedProducts groupedProducts) {
+	public BigDecimal calculatePromotions(List<Promotion> relevantPromotions, ShoppingBasket shoppingBasket) {
 
 		Map<Product, BigDecimal> discountedPrices = new HashMap<>(promotions.size());
 
 		relevantPromotions.forEach(promotion -> {
-			discountedPrices.put(promotion.getProduct(), promotion.applyDiscount(groupedProducts));
+			discountedPrices.put(promotion.getProduct(), promotion.applyDiscount(shoppingBasket));
 		});
 
 		return discountedPrices.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
-
 
 	public List<Promotion> getPromotions() {
 		return this.promotions;
