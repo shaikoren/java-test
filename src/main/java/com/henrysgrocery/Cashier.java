@@ -16,30 +16,26 @@ public class Cashier {
 
 
 	public BigDecimal calculateTotal(ShoppingBasket shoppingBasket, LocalDate dateOfPurchase) {
-
 		List<Promotion> relevantPromotions = filterActivePromotionsByPurchaseDate(dateOfPurchase);
+		BigDecimal priceWithoutPromotion = totalPriceOfProductsWithoutPromotion(productsWithoutPromotions(shoppingBasket, relevantPromotions));
+		BigDecimal discountedPrices = activePromotions.calculatePromotions(relevantPromotions, shoppingBasket);
 
-		Map<Boolean, List<Product>> productsByPromotionApplicability = partitionProductsByPromotionApplicability(shoppingBasket, relevantPromotions);
-
-		BigDecimal priceWithoutPromotion = totalPriceOfProductsWithoutPromotion(productsByPromotionApplicability);
-
-		BigDecimal totalDiscountedPrices = activePromotions.calculatePromotions(relevantPromotions, shoppingBasket);
-
-		return totalDiscountedPrices.add(priceWithoutPromotion);
+		return discountedPrices.add(priceWithoutPromotion);
 	}
 
-	private Map<Boolean, List<Product>> partitionProductsByPromotionApplicability(ShoppingBasket shoppingBasket, List<Promotion> relevantPromotions) {
-		return shoppingBasket.getProducts().stream().collect(Collectors.partitioningBy(
+	private List<Product> productsWithoutPromotions(ShoppingBasket shoppingBasket, List<Promotion> relevantPromotions) {
+		Map<Boolean, List<Product>> productsGroupedByPromotionApplicability = shoppingBasket.getProducts().stream().collect(Collectors.partitioningBy(
 				product -> relevantPromotions.stream().map(promotion -> promotion.getProduct()).collect(Collectors.toList()).contains(product)
 		));
+		return productsGroupedByPromotionApplicability.get(FALSE);
 	}
 
 	private List<Promotion> filterActivePromotionsByPurchaseDate(LocalDate dateOfPurchase) {
 		return activePromotions.getPromotions().stream().filter(promotion -> promotion.isActive(dateOfPurchase)).collect(Collectors.toList());
 	}
 
-	private BigDecimal totalPriceOfProductsWithoutPromotion(Map<Boolean, List<Product>> productsByPromotions) {
-		return productsByPromotions.get(FALSE).stream().map(Product::getPrice)
+	private BigDecimal totalPriceOfProductsWithoutPromotion( List<Product> productsWithoutPromotions) {
+		return productsWithoutPromotions.stream().map(Product::getPrice)
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
 
